@@ -1,5 +1,11 @@
-site_name: bookrec Documentation Site
+site_name: BOOKREC
 nav:
   - Home: "index.md"
   - Relational Schema: "Relational_Schema.png"
   - Entity Relationship Diagram: "Entity_Relationship_Diagram.png"
+
+theme:
+  name: material
+  palette:
+    primary: "brown"
+    accent: "light brown"
