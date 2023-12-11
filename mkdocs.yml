@@ -1,0 +1,5 @@
+site_name: bookrec Documentation Site
+nav:
+  - Home: "index.md"
+  - Relational Schema: "Relational_Schema.png"
+  - Entity Relationship Diagram: "Entity_Relationship_Diagram.png"
