@@ -1,4 +1,4 @@
-# Book Recommendation System
+# Book Recommendation Package 
 
 ## Problem Statement
 
@@ -36,14 +36,51 @@ To sum up, developing an intelligent book recommendation system for Bookinist an
 
 ## Data/Database
 
-The project provides freedom to the user, book store owner, or just a random person, to create a database. Initially, the repository includes `data` folder with 7 csv files that were scrapped and generated. Those files are later used in `example.ipynb` for  `BookStore.db` creation. The user, of course, can specify their own data set, and fill out the database using bookstore.db subpackage. The system works specifically for book stores, that's why initially the database is named as `BookStore.db` and if you run the example.py with the script below, it will create `BookStore.db` in th current working directory. Later on, this data base will be used for recommendation and API Swagger demonstration. Again, the user is free to build the database on his/her own data files, though we initially provide data files scrapped from https://zangakbookstore.am/.  
+The project provides freedom to the user, book store owner, or just a random person, to create a database. Initially, the repository includes `data` folder with 7 csv files that were scrapped and generated. Those files (not mandatory) are later used  in `BookStore.db` creation. The user, of course, can specify their own data set, and fill out the database using bookrec.db subpackage. Take a look at the script below, it creates a database using csv files provided and the `bookrec` package. 
+```{python}
+import pandas as pd
+from bookrec import db
+
+authors = pd.read_csv(".//data//authors.csv")
+books = pd.read_csv(".//data//books.csv")
+customers = pd.read_csv(".//data//customers.csv")
+inventory= pd.read_csv(".//data//inventory.csv")
+orderitem = pd.read_csv(".//data//orderitem.csv")
+orders = pd.read_csv(".//data//orders.csv")
+publishers = pd.read_csv(".//data//publishers.csv")
+
+db.schema.create_database(authors, books, customers, inventory, orderitem, orders, publishers)
+```
+The system works specifically for book stores, that's why initially the database is named as `BookStore.db`. Later on, this data base will be used in recommendation model and API Swagger demonstration. Again, the user is free to build the database on his/her own data files, though we initially provide data files scrapped from https://zangakbookstore.am/.  
 
 ## API Interface
 
-FastAPI is used for an intuitive interface allowing customers and bookstore owners to request books, adjust data, or add new books. Besides GET, POST, PUT methods, the Swagger dashboard also provides another additional GET statement, used for printing recommended books. Basically, bookstore.model subpackage is connected to the bookstore.api subpackage, and while calling the api subpackage, the program automatically call the model subpackage and recommends the books for the customer. You can use the api subpackage by simply running `run.py` file. 
+FastAPI package is used for an intuitive interface allowing customers and bookstore owners to request books, adjust data, or add new books. Besides GET, POST, PUT methods, the Swagger dashboard also provides another additional GET statement, used for printing recommended books. Basically, bookrec.model subpackage is connected to the bookrec.api subpackage, and while calling the api subpackage, the program automatically calls the model subpackage and recommends the books for the customer. You can use the api subpackage by simply running `run.py` file, or the script below.
+```{python}
+from bookrec.api.api import app
 
-## Models
+if __name__ == "__main__":
+    import uvicorn
 
-### Matrix Factorization Model (model.py)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+```
+Make sure you have all packages downloaded in your venv, by installing requirements.txt.
 
-The `model.py` file implements a recommendation system using cosine similarity string distances.  The model can be called outside the package in the following way. (see `example.ipynb`)
+## Model
+
+#### Matrix Factorization Model 
+The model subpackage within the package is dedicated to handling the book recommendation aspect. This submodule employs a Matrix Factorization Model and implements a recommendation system based on cosine similarity string distances.
+
+When interacting with the bookrec.model subpackage, users are prompted to provide a book title. If the specified book title exists in the BookStore.db database, the system responds by presenting five new recommended books.
+
+To use the recommendation model, the following Python script can be employed:
+
+```{python}
+from bookrec.model import model
+db_path = './/BookStore.db'
+title_to_recommend = input("Enter a book title: ")
+recommendations = model.get_combined_recommendations(title_to_recommend, db_path)
+
+print(recommendations)
+```
+Feel free to incorporate this script into your application to leverage the book recommendation functionality provided by the Matrix Factorization Model!
