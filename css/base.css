@@ -105,12 +105,13 @@ kbd {
 }
 
 a code {
-    color: #2FA4E7;
+    color: #8B4513; /* Dark Brown */
 }
 
 a:hover code, a:focus code {
-    color: #157AB5;
+    color: #8B4513; /* Dark Brown */
 }
+
 
 footer {
     margin-top: 30px;
@@ -260,9 +261,9 @@ blockquote {
     }
 }
 
-.dropdown-item.open { /* csslint allow: adjoining-classes */
+.dropdown-item.open {
     color: #fff;
-    background-color: #2FA4E7;
+    background-color: #8B4513; /* Dark Brown */
 }
 
 .dropdown-submenu > .dropdown-menu {
